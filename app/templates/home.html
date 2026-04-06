@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Manguli AI · thoughtful companion</title>
+    <!-- Bootstrap 5 + Icons + Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts for modern, clean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+    <div class="container py-3 py-md-4">
+        <div class="chat-wrapper">
+            <!-- Header area with brand & status -->
+            <div class="chat-header d-flex flex-wrap justify-content-between align-items-center">
+                <div class="brand-area">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <div class="ai-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h1 class="h4 mb-0 fw-semibold">Manguli AI</h1>
+                    </div>
+                    <p class="tagline mb-0">Clear, focused, always here to help</p>
+                </div>
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Online & ready</span>
+                </div>
+            </div>
+
+            <!-- main chat body (scrollable) -->
+            <div class="chat-body" id="chatBody">
+                <!-- Welcome screen (shown when no conversation) -->
+                <div id="welcomeScreen" class="welcome-card" {% if question or answer %}style="display: none;"{% endif %}>
+                    <div class="text-center mb-3">
+                        <i class="fas fa-comments welcome-icon"></i>
+                    </div>
+                    <h3 class="h5 fw-semibold mb-2">Start your first conversation</h3>
+                    <p class="text-muted mb-4">
+                        Type anything below. This layout is ready for user messages and AI replies — 
+                        clean, simple, and delightful.
+                    </p>
+                    <div class="prompt-grid">
+                        <div class="prompt-item" data-prompt="What is Python? Explain it simply.">
+                            <i class="fas fa-code me-2"></i> What is Python?
+                        </div>
+                        <div class="prompt-item" data-prompt="Explain Artificial Intelligence in simple terms.">
+                            <i class="fas fa-chalkboard-user me-2"></i> Explain AI
+                        </div>
+                        <div class="prompt-item" data-prompt="Draft a polite leave request email for my manager.">
+                            <i class="fas fa-envelope me-2"></i> Leave request email
+                        </div>
+                        <div class="prompt-item" data-prompt="What is Django framework and why is it used?">
+                            <i class="fas fa-bug me-2"></i> What is Django?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conversation messages -->
+                <div id="messagesContainer">
+                    {% if question %}
+                        <div class="message-row user">
+                            <div class="message-bubble user-bubble">
+                                {{ question }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if answer %}
+                        <div class="message-row bot">
+                            <div class="message-bubble bot-bubble">
+                                {{ answer|linebreaksbr }}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- composer / input form -->
+            <div class="composer-area">
+                <form id="chatForm" class="composer-form" method="post" action="">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <textarea id="questionInput" name="question" rows="1" placeholder="Message Manguli AI..." class="form-control message-input"></textarea>
+                        <button type="submit" class="btn send-btn" id="sendBtn">
+                            <i class="fas fa-paper-plane me-1"></i> Send
+                        </button>
+                    </div>
+                    <div class="form-text text-muted small mt-2">
+                        <i class="fas fa-arrow-up me-1"></i> Press Enter to send, Shift+Enter for new line
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/home.js' %}"></script>
+</body>
+</html>
